@@ -7,6 +7,7 @@ const app = express();
 app.use(cors());
 
 express.raw();
+app.use(express.json());
 
 const uploadPath = path.join(__dirname, "uploads");
 const tempPath = path.join(__dirname, "temp");

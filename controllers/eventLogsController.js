@@ -1,7 +1,7 @@
-// controllers/eventLogsController.js
-
-exports.eventLogsController = async (req, res) => {
+exports.eventLogs = async (req, res) => {
   try {
+    console.log("Incoming body:", req.body);
+
     const { event, iccid } = req.body;
 
     if (!event || !iccid) {
@@ -25,14 +25,14 @@ exports.eventLogsController = async (req, res) => {
 
     console.log("Event received:", event, "ICCID:", iccid);
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       event,
       iccid,
       message: "Event logged successfully",
     });
   } catch (error) {
-    console.error("Event log error:", error);
+    console.error("Controller error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
