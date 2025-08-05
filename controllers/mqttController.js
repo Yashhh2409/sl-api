@@ -2,15 +2,15 @@ const mqttClient = require('../mqtt/mqttClient');
 const MQTT_TOPIC = process.env.MQTT_TOPIC;
 
 const publishMqttEvent = (req, res) => {
-  const { event } = req.body;
+  const { event, iccid } = req.body;
 
   console.log('[EVENT RECEIVED]', req.body);
 
-  if (!event) {
-    return res.status(400).json({ success: false, error: 'Missing event in request body' });
+  if (!event || !iccid) {
+    return res.status(400).json({ success: false, error: 'Missing event or iccid in request body' });
   }
 
-  const payload = JSON.stringify({ event });
+  const payload = JSON.stringify({ event, iccid });
 
   // Ensure MQTT is connected
   if (!mqttClient.connected) {
