@@ -1,28 +1,23 @@
-// mqtt/mqttClient.js
 const mqtt = require('mqtt');
 require('dotenv').config();
 
-const {
-  MQTT_HOST,
-  MQTT_PORT,
-} = process.env;
-
-const clientId = 'web-client-' + Math.random().toString(16).slice(2);
-const mqttUrl = `mqtt://${MQTT_HOST}:${MQTT_PORT}`;
-
-const mqttClient = mqtt.connect(mqttUrl, {
-  clientId,
+const client = mqtt.connect(`mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`, {
+  clientId: 'client-' + Math.random().toString(16).substr(2, 8),
+  reconnectPeriod: 1000,
+  connectTimeout: 10 * 1000,
   clean: true,
-  connectTimeout: 4000,
-  reconnectPeriod: 2000,
 });
 
-mqttClient.on('connect', () => {
-  console.log('[MQTT] Connected');
+client.on('connect', () => {
+  console.log('[MQTT] Connected to broker');
 });
 
-mqttClient.on('error', (err) => {
-  console.error('[MQTT] Error:', err.message);
+client.on('error', (err) => {
+  console.error('[MQTT] Connection error:', err.message);
 });
 
-module.exports = mqttClient;
+client.on('reconnect', () => {
+  console.log('[MQTT] Reconnecting...');
+});
+
+module.exports = client;

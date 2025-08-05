@@ -4,6 +4,9 @@ exports.eventLogs = async (req, res) => {
 
     const { event, iccid } = req.body;
 
+    console.log("🚀 Received Event:", event); // ✅ Log event
+  console.log("📱 ICCID:", iccid);           // ✅ Log iccid
+
     if (!event || !iccid) {
       return res.status(400).json({
         success: false,
@@ -23,7 +26,7 @@ exports.eventLogs = async (req, res) => {
       });
     }
 
-    console.log("Event received:", event, "ICCID:", iccid);
+    // console.log("Event received:", event, "ICCID:", iccid);
 
     return res.status(200).json({
       success: true,
