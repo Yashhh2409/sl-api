@@ -1,8 +1,8 @@
-const express = require("express");
 
+const express = require("express");
 const router = express.Router();
 const eventLogsController = require("../controllers/eventLogsController");
 
-router.get("/event-logs", eventLogsController);
+router.post("/event-logs", eventLogsController.eventLogsController);
 
-module.exports;
+module.exports = router;

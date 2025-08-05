@@ -1,36 +1,41 @@
-export const eventLogsController = async () => {
+// controllers/eventLogsController.js
+
+exports.eventLogsController = async (req, res) => {
   try {
-    const body = await req.json();
-    const { event, iccid } = body;
+    const { event, iccid } = req.body;
 
     if (!event || !iccid) {
-      return res.json(
-        { success: false, message: "Missing event or iccid" },
-        { status: 400 }
-      );
+      return res.status(400).json({
+        success: false,
+        message: "Missing event or iccid",
+      });
     }
 
     const validEvents = [
       "KEY_RELEASE_BTN_CLICKED",
       "SHACKLE_RELEASE_BTN_CLICKED",
     ];
+
     if (!validEvents.includes(event)) {
-      return res.json(
-        { success: false, message: "Invalid event type" },
-        { status: 400 }
-      );
+      return res.status(400).json({
+        success: false,
+        message: "Invalid event type",
+      });
     }
 
-    console.log("Event recieved: ", event, "ICCID:", iccid);
+    console.log("Event received:", event, "ICCID:", iccid);
 
     return res.json({
       success: true,
-      event: event,
-      iccid: iccid,
+      event,
+      iccid,
       message: "Event logged successfully",
     });
   } catch (error) {
     console.error("Event log error:", error);
-    return res.json({ success: false, message: "Internal Server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
