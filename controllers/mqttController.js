@@ -25,7 +25,7 @@ const publishMqttEvent = (req, res) => {
     }
 
     console.log(`[MQTT] Published: ${payload}`);
-    return res.status(200).json({ success: true, message: 'Event published', event });
+    return res.status(200).json({ event, iccid });
   });
 };
 
