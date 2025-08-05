@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
@@ -19,6 +20,7 @@ app.use(
   express.raw({ type: ["image/jpeg", "image/png", "image/jpg"] })
 );
 
+// ✅ EXISTING ROUTES
 const imageChunkRoutes = require("./routes/imageChunkRoutes");
 app.use("/", imageChunkRoutes);
 
@@ -30,6 +32,13 @@ app.use("/", recentImageRoutes);
 
 const eventLogsRoutes = require("./routes/eventLogsRoute");
 app.use("/", eventLogsRoutes);
+
+// ✅ MQTT ROUTES (NEW)
+const mqttRoutes = require("./routes/mqttRoute");
+app.use('/', mqttRoutes);
+
+// ✅ MQTT CONNECTION INIT (NEW)
+require("./mqtt/mqttClient");
 
 app.post("/upload-image", (req, res) => {
   if (!req.body || !req.body.length) {
