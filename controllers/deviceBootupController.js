@@ -9,7 +9,7 @@ exports.handleBootup = async (req, res) => {
     }
 
     // Get current time in Taiwan (Asia/Taipei)
-    const UTCTime = moment.utc().format("YYYY-MM-DD HH:MM:SS");
+    const UTCTime = moment.utc().format("YYYY-MM-DD HH:mm:ss");
 
     // Hardcoded data (can be replaced later)
     const staticData = "4&plan=31&manager=2663,2664,2661";
