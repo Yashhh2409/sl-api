@@ -8,17 +8,14 @@ exports.handleBootup = async (req, res) => {
       return res.status(400).send("Missing 'key' or 'bat' in body");
     }
 
-    console.log("India Time:", moment().tz("Asia/Kolkata").format());
-console.log("Taiwan Time:", moment().tz("Asia/Taipei").format());
-
     // Get current time in Taiwan (Asia/Taipei)
-    const taiwanTime = moment().tz("Asia/Taipei").format("YYYY-MM-DD HH:mm:ss");
+    const UTCTime = moment.utc().format("YYYY-MM-DD HH:MM:SS");
 
     // Hardcoded data (can be replaced later)
     const staticData = "4&plan=31&manager=2663,2664,2661";
 
     // Final string response
-    const responseString = `utc=${taiwanTime} ${staticData}`;
+    const responseString = `utc=${UTCTime} ${staticData}`;
 
     console.log("Incoming data:", { key, bat });
     console.log("Responding with:", responseString);
