@@ -20,7 +20,7 @@ app.use(
   express.raw({ type: ["image/jpeg", "image/png", "image/jpg"] })
 );
 
-// ✅ EXISTING ROUTES
+// EXISTING ROUTES
 const imageChunkRoutes = require("./routes/imageChunkRoutes");
 app.use("/", imageChunkRoutes);
 
@@ -33,11 +33,14 @@ app.use("/", recentImageRoutes);
 const eventLogsRoutes = require("./routes/eventLogsRoute");
 app.use("/", eventLogsRoutes);
 
-// ✅ MQTT ROUTES (NEW)
+const deviceBootupRoutes = require("./routes/deviceBootupRoute");
+app.use("/", deviceBootupRoutes);
+
+// MQTT ROUTES (NEW)
 const mqttRoutes = require("./routes/mqttRoute");
 app.use('/', mqttRoutes);
 
-// ✅ MQTT CONNECTION INIT (NEW)
+// MQTT CONNECTION INIT (NEW)
 require("./mqtt/mqttClient");
 
 app.post("/upload-image", (req, res) => {
