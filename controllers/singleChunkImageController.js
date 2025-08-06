@@ -5,7 +5,7 @@ const uploadPath = path.join(__dirname, '..', 'uploads');
 const tempPath = path.join(__dirname, '..', 'temp');
 
 exports.uploadSingleImageChunk = async (req, res) => {
-  // Step 1: Decode Basic Auth
+  // Decode Basic Auth
   const authHeader = req.headers['authorization'];
 
   console.log("headers:", authHeader);
@@ -22,7 +22,7 @@ exports.uploadSingleImageChunk = async (req, res) => {
     return res.status(400).json({ error: 'Invalid Authorization format' });
   }
 
-  // Step 2: Parse chunk info
+  // Parse chunk info
   const chunkIndex = parseInt(req.headers['x-chunk-index'], 10);
   const totalChunks = parseInt(req.headers['x-total-chunks'], 10);
   const isLastChunk = chunkIndex === totalChunks - 1;
@@ -31,16 +31,16 @@ exports.uploadSingleImageChunk = async (req, res) => {
     return res.status(400).json({ error: 'Missing or invalid chunk data' });
   }
 
-  // Step 3: Unique temp file per ICCID
+  // Unique temp file per ICCID
   const tempFile = path.join(tempPath, `${iccid}.part`);
   fs.appendFileSync(tempFile, req.body);
 
-  // Step 4: Wait for all chunks
+  // Wait for all chunks
   if (!isLastChunk) {
     return res.json({ message: 'Chunk received', chunkIndex });
   }
 
-  // Step 5: Final save using ICCID + timestamp
+  // Final save using ICCID + timestamp
   const finalFilename = `${iccid}_${Date.now()}.jpg`;
   const finalFilePath = path.join(uploadPath, finalFilename);
   fs.renameSync(tempFile, finalFilePath);
